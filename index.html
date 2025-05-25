@@ -330,9 +330,6 @@
             ></span
           ></span>
           <div class="header-buttons">
-            <button class="header-button" onclick="testConnection()">
-              接続テスト
-            </button>
             <button class="header-button" onclick="clearChat()">
               履歴をクリア
             </button>
@@ -434,7 +431,6 @@
       // ベースURL変更時にローカルストレージに保存
       baseUrlInput.addEventListener("change", () => {
         localStorage.setItem("ollamaBaseUrl", baseUrlInput.value);
-        testConnection();
       });
 
       // モデル変更時にローカルストレージに保存
@@ -468,10 +464,6 @@
         }
 
         updateHeaderModel();
-
-        if (savedUrl) {
-          testConnection();
-        }
       });
 
       async function sendMessage() {
@@ -620,74 +612,6 @@
           chatMessages.innerHTML = "";
           // システムプロンプトは残す
           messages = messages.slice(0, 1);
-        }
-      }
-
-      // 接続テスト
-      async function testConnection() {
-        statusIndicator.textContent = " - 接続確認中...";
-        statusIndicator.style.color = "#ffa500";
-
-        // 成功/失敗メッセージを表示
-        const showConnectionStatus = (message, isSuccess) => {
-          const statusDiv = document.createElement("div");
-          statusDiv.style.cssText = `
-                    background: ${isSuccess ? "#d4edda" : "#f8d7da"};
-                    color: ${isSuccess ? "#155724" : "#721c24"};
-                    padding: 12px 20px;
-                    margin: 10px 20px;
-                    border-radius: 8px;
-                    text-align: center;
-                    animation: fadeIn 0.3s ease-out;
-                    font-weight: 500;
-                `;
-          statusDiv.textContent = message;
-          chatMessages.appendChild(statusDiv);
-
-          setTimeout(() => {
-            statusDiv.style.animation = "fadeOut 0.3s ease-out";
-            setTimeout(() => statusDiv.remove(), 300);
-          }, 3000);
-        };
-
-        try {
-          const response = await fetch(`${getBaseUrl()}/v1/chat/completions`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              model: getModel(),
-              messages: [{ role: "user", content: "test" }],
-              stream: false,
-            }),
-          });
-
-          if (response.ok) {
-            statusIndicator.textContent = " - 接続OK";
-            statusIndicator.style.color = "#28a745";
-            showConnectionStatus(
-              `✓ Ollama接続成功！ (${getBaseUrl()}, Model: ${getModel()})`,
-              true
-            );
-
-            setTimeout(() => {
-              statusIndicator.textContent = "";
-              statusIndicator.style.color = "";
-            }, 3000);
-          } else {
-            throw new Error(`HTTP ${response.status}`);
-          }
-        } catch (error) {
-          statusIndicator.textContent = " - 接続エラー";
-          statusIndicator.style.color = "#dc3545";
-          console.error("Connection test failed:", error);
-          showConnectionStatus(`✗ Ollama接続失敗: ${error.message}`, false);
-
-          setTimeout(() => {
-            statusIndicator.textContent = "";
-            statusIndicator.style.color = "";
-          }, 5000);
         }
       }
     </script>
