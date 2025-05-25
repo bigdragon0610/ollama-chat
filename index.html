@@ -65,6 +65,13 @@
         letter-spacing: 0.5px;
       }
 
+      @media (max-width: 480px) {
+        .chat-header {
+          padding: 15px;
+          font-size: 1em;
+        }
+      }
+
       .header-content {
         display: flex;
         justify-content: space-between;
@@ -98,6 +105,7 @@
         gap: 10px;
         align-items: center;
         font-size: 0.85em;
+        flex-wrap: wrap;
       }
 
       .url-input-container label {
@@ -107,6 +115,7 @@
       #baseUrlInput,
       #modelInput {
         flex: 1;
+        min-width: 0;
         padding: 4px 10px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 15px;
@@ -114,6 +123,22 @@
         color: white;
         font-size: 0.9em;
         outline: none;
+      }
+
+      @media (max-width: 480px) {
+        .url-input-container {
+          font-size: 0.75em;
+        }
+
+        .url-input-container label {
+          font-size: 0.9em;
+        }
+
+        #baseUrlInput,
+        #modelInput {
+          font-size: 0.85em;
+          padding: 3px 8px;
+        }
       }
 
       #baseUrlInput::placeholder,
@@ -168,6 +193,14 @@
         transition: transform 0.2s ease;
         white-space: pre-wrap;
         line-height: 1.5;
+      }
+
+      @media (max-width: 480px) {
+        .message-content {
+          max-width: 85%;
+          padding: 10px 14px;
+          font-size: 14px;
+        }
       }
 
       .message-content:hover {
@@ -229,6 +262,13 @@
         max-height: 100px;
         overflow-y: auto;
         font-family: inherit;
+      }
+
+      @media (max-width: 480px) {
+        #userInput {
+          font-size: 14px;
+          padding: 10px 14px;
+        }
       }
 
       #userInput:focus {
@@ -336,20 +376,24 @@
           </div>
         </div>
         <div class="url-input-container">
-          <label for="baseUrlInput">Ollama URL:</label>
-          <input
-            type="text"
-            id="baseUrlInput"
-            placeholder="http://localhost:11434"
-            value=""
-          />
-          <label for="modelInput" style="margin-left: 15px">Model:</label>
-          <input
-            type="text"
-            id="modelInput"
-            placeholder="gemma3:1b"
-            value="gemma3:1b"
-          />
+          <div style="display: flex; gap: 10px; width: 100%">
+            <label for="baseUrlInput">URL:</label>
+            <input
+              type="text"
+              id="baseUrlInput"
+              placeholder="http://localhost:11434"
+              value=""
+            />
+          </div>
+          <div style="display: flex; gap: 10px; width: 100%; margin-top: 8px">
+            <label for="modelInput">Model:</label>
+            <input
+              type="text"
+              id="modelInput"
+              placeholder="gemma3:1b"
+              value="gemma3:1b"
+            />
+          </div>
         </div>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
