@@ -428,13 +428,6 @@
       // 日本語入力中かどうかのフラグ
       let isComposing = false;
 
-      // システムプロンプトを設定（オプション）
-      messages.push({
-        role: "system",
-        content:
-          "You are a helpful assistant. Please respond in the same language as the user's input.",
-      });
-
       // ベースURLを取得
       function getBaseUrl() {
         const url = baseUrlInput.value.trim();
@@ -654,8 +647,7 @@
       function clearChat() {
         if (confirm("チャット履歴をクリアしますか？")) {
           chatMessages.innerHTML = "";
-          // システムプロンプトは残す
-          messages = messages.slice(0, 1);
+          messages = [];
         }
       }
     </script>
